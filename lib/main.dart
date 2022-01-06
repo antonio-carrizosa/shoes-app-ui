@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shoes_app_ui/src/pages/main_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -8,16 +9,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Shoes App UI',
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Material App Bar'),
-        ),
-        body: Center(
-          child: Container(
-            child: Text('Hello World'),
-          ),
-        ),
+      theme: ThemeData.light().copyWith(
+        primaryColor: Color(0xfff4a51d),
+        accentColor: Color(0xffffcf53),
+        primaryColorDark: Color(0xffeaa14e),
       ),
+      home: MainPage(),
     );
   }
 }
