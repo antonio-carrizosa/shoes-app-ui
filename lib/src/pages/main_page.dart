@@ -12,14 +12,14 @@ class MainPage extends StatelessWidget {
         child: Column(
           children: [
             CustomAppBar(text: "For you"),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             Expanded(
               child: SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
                   child: Column(
                     children: [
                       ShoePreview(),
-                      SizedBox(height: 20.0),
+                      const SizedBox(height: 20.0),
                       ShoeDescription(
                         title: "Nike Air Max 720",
                         description:

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shoes_app_ui/src/pages/details_page.dart';
 import 'package:shoes_app_ui/src/pages/main_page.dart';
 
 void main() => runApp(MyApp());
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
         accentColor: Color(0xffffcf53),
         primaryColorDark: Color(0xffeaa14e),
       ),
-      home: MainPage(),
+      home: DetailsPage(),
     );
   }
 }
