@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shoes_app_ui/src/helpers/helpers.dart';
 import 'package:shoes_app_ui/src/models/shoe.dart';
 import 'package:shoes_app_ui/src/pages/details_page.dart';
 import 'package:shoes_app_ui/src/widgets/custom_widgets.dart';
@@ -8,8 +9,8 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    setDarkStatusBar();
     return Scaffold(
-      // body: CustomAppBar(text: "For you"),
       body: SafeArea(
         child: Column(
           children: [

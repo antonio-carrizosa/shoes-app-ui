@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shoes_app_ui/src/helpers/helpers.dart';
 import 'package:shoes_app_ui/src/models/shoe.dart';
 import 'package:shoes_app_ui/src/providers/shoes_ui_provider.dart';
 import 'package:shoes_app_ui/src/widgets/custom_widgets.dart';
@@ -10,6 +11,7 @@ class DetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    setLightStatusBar();
     return Scaffold(
       body: Column(
         children: [
@@ -20,7 +22,10 @@ class DetailsPage extends StatelessWidget {
                   top: 100,
                   left: 10,
                   child: IconButton(
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () {
+                      setDarkStatusBar();
+                      Navigator.pop(context);
+                    },
                     icon: Icon(Icons.arrow_back_ios),
                     color: Colors.white,
                   ))
