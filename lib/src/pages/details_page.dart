@@ -1,4 +1,8 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shoes_app_ui/src/models/shoe.dart';
+import 'package:shoes_app_ui/src/providers/shoes_ui_provider.dart';
 import 'package:shoes_app_ui/src/widgets/custom_widgets.dart';
 
 class DetailsPage extends StatelessWidget {
@@ -11,12 +15,12 @@ class DetailsPage extends StatelessWidget {
         children: [
           Stack(
             children: [
-              ShoePreview(fullScreen: true),
+              Hero(tag: "shoe-preview", child: ShoePreview(fullScreen: true)),
               Positioned(
                   top: 100,
                   left: 10,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () => Navigator.pop(context),
                     icon: Icon(Icons.arrow_back_ios),
                     color: Colors.white,
                   ))
@@ -28,9 +32,8 @@ class DetailsPage extends StatelessWidget {
               children: [
                 SizedBox(height: 20),
                 ShoeDescription(
-                  title: "Nike Air Max 720",
-                  description:
-                      "The Nike Air Max 720 goes bigger than ever before with Nike's taller Air unit yet, offering more air underfoot for unimaginable, all-day comfort. Has Air Max gone too far? We hope so.",
+                  title: Shoe.shoe.model,
+                  description: Shoe.shoe.description,
                 ),
                 const SizedBox(height: 20),
                 _BuyNow(),
@@ -111,7 +114,10 @@ class _BuyNow extends StatelessWidget {
         children: [
           Text('\$180.0',
               style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
-          PrimaryButton(text: "Buy now", height: 40, width: 120)
+          Bounce(
+              delay: const Duration(milliseconds: 500),
+              from: 8,
+              child: PrimaryButton(text: "Buy now", height: 40, width: 120))
         ],
       ),
     );
@@ -131,10 +137,13 @@ class _ColorChooser extends StatelessWidget {
           Expanded(
               child: Stack(
             children: [
-              Positioned(left: 3 * 35, child: _ColorButton(Color(0xffc6d642))),
-              Positioned(left: 2 * 35, child: _ColorButton(Color(0xffffad29))),
-              Positioned(left: 1 * 35, child: _ColorButton(Color(0xff2099f1))),
-              _ColorButton(Color(0xff364d56)),
+              Positioned(
+                  left: 3 * 35, child: _ColorButton(3, Color(0xffc6d642))),
+              Positioned(
+                  left: 2 * 35, child: _ColorButton(2, Color(0xffffad29))),
+              Positioned(
+                  left: 1 * 35, child: _ColorButton(1, Color(0xff2099f1))),
+              _ColorButton(0, Color(0xff364d56)),
             ],
           )),
           PrimaryButton(
@@ -149,16 +158,26 @@ class _ColorChooser extends StatelessWidget {
 }
 
 class _ColorButton extends StatelessWidget {
+  final int index;
   final Color color;
 
-  const _ColorButton(this.color, {Key? key}) : super(key: key);
+  const _ColorButton(this.index, this.color, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 45,
-      height: 45,
-      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+    return FadeInLeft(
+      delay: Duration(milliseconds: 100 * index),
+      child: GestureDetector(
+        onTap: () {
+          final img = Shoe.shoe.colors[index];
+          Provider.of<ShoesUIProvider>(context, listen: false).assetImg = img;
+        },
+        child: Container(
+          width: 45,
+          height: 45,
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+        ),
+      ),
     );
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shoes_app_ui/src/models/shoe.dart';
+import 'package:shoes_app_ui/src/pages/details_page.dart';
 import 'package:shoes_app_ui/src/widgets/custom_widgets.dart';
 
 class MainPage extends StatelessWidget {
@@ -18,12 +20,18 @@ class MainPage extends StatelessWidget {
                   physics: BouncingScrollPhysics(),
                   child: Column(
                     children: [
-                      ShoePreview(),
+                      GestureDetector(
+                        onTap: () => Navigator.push(context,
+                            MaterialPageRoute(builder: (_) => DetailsPage())),
+                        child: Hero(
+                          tag: "shoe-preview",
+                          child: ShoePreview(),
+                        ),
+                      ),
                       const SizedBox(height: 20.0),
                       ShoeDescription(
-                        title: "Nike Air Max 720",
-                        description:
-                            "The Nike Air Max 720 goes bigger than ever before with Nike's taller Air unit yet, offering more air underfoot for unimaginable, all-day comfort. Has Air Max gone too far? We hope so.",
+                        title: Shoe.shoe.model,
+                        description: Shoe.shoe.description,
                       ),
                     ],
                   )),

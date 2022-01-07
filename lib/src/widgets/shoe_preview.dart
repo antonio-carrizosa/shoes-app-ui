@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shoes_app_ui/src/models/shoe.dart';
+import 'package:shoes_app_ui/src/providers/shoes_ui_provider.dart';
 
 class ShoePreview extends StatelessWidget {
   final bool fullScreen;
@@ -32,6 +35,7 @@ class _ShoeImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final img = Provider.of<ShoesUIProvider>(context).assetImg;
     return Padding(
       padding: const EdgeInsets.all(50.0),
       child: Stack(
@@ -41,7 +45,7 @@ class _ShoeImage extends StatelessWidget {
             right: 0,
             child: _ShoeShadow(),
           ),
-          Image.asset("assets/img/negro.png", fit: BoxFit.contain),
+          Image.asset(img, fit: BoxFit.contain),
         ],
       ),
     );
@@ -55,14 +59,15 @@ class _ShoeSizes extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _ShoeSize(7),
-          _ShoeSize(7.5),
-          _ShoeSize(8),
-          _ShoeSize(8.5),
-          _ShoeSize(9),
-          _ShoeSize(9.5),
-        ],
+        children: Shoe.shoe.sizes.map((size) => _ShoeSize(size)).toList(),
+        // children: [
+        //   _ShoeSize(7),
+        //   _ShoeSize(7.5),
+        //   _ShoeSize(8),
+        //   _ShoeSize(8.5),
+        //   _ShoeSize(9),
+        //   _ShoeSize(9.5),
+        // ],
       ),
     );
   }
@@ -76,29 +81,35 @@ class _ShoeSize extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isCurrent = size == 9;
 
-    return Container(
-      alignment: Alignment.center,
-      width: 40,
-      height: 40,
-      decoration: BoxDecoration(
-          color: isCurrent ? theme.primaryColor : Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            if (isCurrent)
-              BoxShadow(
-                  color: theme.primaryColor,
-                  offset: Offset(0, 5),
-                  blurRadius: 10,
-                  spreadRadius: 2)
-          ]),
-      child: Text(
-        '${size.toString().replaceAll('.0', "")}',
-        style: TextStyle(
-            fontSize: 16,
-            color: isCurrent ? Colors.white : Theme.of(context).primaryColor,
-            fontWeight: FontWeight.bold),
+    final isCurrent =
+        size == Provider.of<ShoesUIProvider>(context).selectedSize;
+
+    return GestureDetector(
+      onTap: () => Provider.of<ShoesUIProvider>(context, listen: false)
+          .selectedSize = size,
+      child: Container(
+        alignment: Alignment.center,
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+            color: isCurrent ? theme.primaryColor : Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              if (isCurrent)
+                BoxShadow(
+                    color: theme.primaryColor,
+                    offset: Offset(0, 5),
+                    blurRadius: 10,
+                    spreadRadius: 2)
+            ]),
+        child: Text(
+          '${size.toString().replaceAll('.0', "")}',
+          style: TextStyle(
+              fontSize: 16,
+              color: isCurrent ? Colors.white : Theme.of(context).primaryColor,
+              fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }
